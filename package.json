@@ -4,7 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "create-db-migration": "db-migrate create $NAME --sql-file",
+    "migrate-db": "db-migrate up",
+    "rollback-last-db-migration": "db-migrate down",
+    "start": "nodemon src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "npx eslint --fix *.js src tests *.js",
+    "format": "prettier --write \"src/**/*.+(js|jsx|json|yml|yaml|css|md|vue)\"",
+    "test": "NODE_ENV=test jest --testRunner='jest-circus/runner' --maxWorkers=1",
+    "test:migrate-db": "db-migrate up -e test",
+    "precommit": "lint-staged && npm run test",
+    "init:husky": "rm -rf ./.husky && npx husky install && npx husky add .husky/pre-commit 'npx lint-staged'",
+    "migrate-db-reset": "db-migrate reset"
   },
   "repository": {
     "type": "git",
@@ -19,10 +30,14 @@
   "homepage": "https://github.com/EnzoFuche/Checkpoint4_back#readme",
   "dependencies": {
     "argon2": "^0.28.5",
+    "axios": "^0.26.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
+    "migrate-db": "^0.1.0",
+    "migration": "^0.3.0",
     "mysql2": "^2.3.3"
   },
   "devDependencies": {
